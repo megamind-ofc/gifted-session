@@ -41,7 +41,10 @@ app.get('/session/:id', async (req, res) => {
     try {
         const sessionId = req.params.id;
         
+        console.log(`[SESSION API] Received request for session ID: ${sessionId}`);
+        
         if (!sessionId || sessionId.length !== 6) {
+            console.log(`[SESSION API] Invalid session ID length: ${sessionId?.length}`);
             return res.status(400).json({ 
                 error: 'Invalid session ID format. Expected 6 characters.' 
             });
@@ -50,20 +53,24 @@ app.get('/session/:id', async (req, res) => {
         const b64Data = await getSession(sessionId);
         
         if (!b64Data) {
+            console.log(`[SESSION API] Session not found in database: ${sessionId}`);
             return res.status(404).json({ 
-                error: 'Session not found or expired.' 
+                error: 'Session not found or expired. Please generate a new session ID.',
+                sessionId: sessionId
             });
         }
         
+        console.log(`[SESSION API] Session found, returning data for: ${sessionId}`);
         res.json({
             success: true,
             sessionId: 'Darex~' + sessionId,
             data: b64Data
         });
     } catch (error) {
-        console.error('Session retrieval error:', error);
+        console.error('[SESSION API] Error:', error);
         res.status(500).json({ 
-            error: 'Internal server error' 
+            error: 'Internal server error',
+            details: error.message
         });
     }
 });

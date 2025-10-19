@@ -49,15 +49,26 @@ async function storeSession(sessionId, b64Data) {
     const sessions = database.collection('sessions');
     
     try {
-        await sessions.insertOne({
+        console.log(`[DB] Attempting to store session: ${sessionId}`);
+        
+        const result = await sessions.insertOne({
             sessionId,
             b64Data,
             createdAt: new Date(),
             expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
         });
         
+        console.log(`[DB] Session stored successfully: ${sessionId}`, result.insertedId);
+        
+        // Verify the session was stored
+        const verification = await sessions.findOne({ sessionId });
+        if (!verification) {
+            throw new Error('Session storage verification failed');
+        }
+        
         return sessionId;
     } catch (error) {
+        console.error(`[DB] Error storing session ${sessionId}:`, error);
         if (error.code === 11000) {
             throw new Error('SESSION_ID_DUPLICATE');
         }
