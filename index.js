@@ -3,7 +3,7 @@ const path = require('path');
 const app = express();
 __path = process.cwd()
 const bodyParser = require("body-parser");
-const PORT = process.env.PORT || 50900;
+const PORT = process.env.PORT || 5000;
 const { 
   qrRoute,
   pairRoute
@@ -36,11 +36,11 @@ app.get('/health', (req, res) => {
     });
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
     console.log(`
 Deployment Successful!
 
- Gifted-Session-Server Running on http://localhost:` + PORT)
+ Gifted-Session-Server Running on http://0.0.0.0:` + PORT)
 })
 
 module.exports = app
