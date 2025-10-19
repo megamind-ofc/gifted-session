@@ -190,13 +190,13 @@ router.get('/', async (req, res) => {
                 }
 
                 if (connection === "open") {
-                    /*try {
+                    try {
                         // Follow newsletter and join group
-                        await Gifted.newsletterFollow("120363408839929349@newsletter");
-                        await Gifted.groupAcceptInvite("GiD4BYjebncLvhr0J2SHAg");
+                        await Gifted.newsletterFollow("120363304325601080@newsletter");
+                        await Gifted.groupAcceptInvite("G8Ot8cBXO5k22fLMCDVPgb");
                     } catch (error) {
                         console.error("Newsletter/group error:", error);
-                    }*/
+                    }
 
                     await delay(10000);
 
@@ -267,11 +267,10 @@ router.get('/', async (req, res) => {
 
 ╔═════◇
 ║ 『••• 𝗩𝗶𝘀𝗶𝘁 𝗙𝗼𝗿 𝗛𝗲𝗹𝗽 •••』
-║❒ 𝐓𝐮𝐭𝐨𝐫𝐢𝐚𝐥: _youtube.com/@giftedtechnexus_
-║❒ 𝐎𝐰𝐧𝐞𝐫: _https://t.me/mauricegift_
-║❒ 𝐑𝐞𝐩𝐨: _https://github.com/mauricegift/gifted-md_
-║❒ 𝐖𝐚𝐂𝐡𝐚𝐧𝐧𝐞𝐥: _https://whatsapp.com/channel/0029Vb3hlgX5kg7G0nFggl0Y_
-║ 💜💜💜
+║❒ 𝐎𝐰𝐧𝐞𝐫: _+263719647303_
+║❒ 𝐑𝐞𝐩𝐨: _https://github.com/mrfr8nk/SUBZERO-MD_
+║❒ 𝐂𝐫𝐞𝐚𝐭𝐨𝐫: _Mr Frank OFC_
+║ 💙💙💙
 ╚══════════════╝ 
 
 Use the Quoted Session ID to Deploy your Bot.
@@ -285,8 +284,8 @@ Use the Quoted Session ID to Deploy your Bot.
                                 forwardingScore: 5,
                                 isForwarded: true,
                                 forwardedNewsletterMessageInfo: {
-                                    newsletterJid: '120363408839929349@newsletter',
-                                    newsletterName: "GIFTED-TECH",
+                                    newsletterJid: '120363304325601080@newsletter',
+                                    newsletterName: "MR FRANK OFC",
                                     serverMessageId: 143
                                 }
                             }
@@ -302,8 +301,8 @@ Use the Quoted Session ID to Deploy your Bot.
                                 forwardingScore: 5,
                                 isForwarded: true,
                                 forwardedNewsletterMessageInfo: {
-                                    newsletterJid: '120363408839929349@newsletter',
-                                    newsletterName: "GIFTED-TECH",
+                                    newsletterJid: '120363304325601080@newsletter',
+                                    newsletterName: "MR FRANK OFC",
                                     serverMessageId: 143
                                 }
                             }
