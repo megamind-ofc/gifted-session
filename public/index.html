@@ -1,49 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>SUBZERO MD | WHATSAPP BOT</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         :root {
-            --primary: #7b2cbf;
-            --secondary: #9d4edd;
-            --accent: #ff9e00;
-            --dark: #10002b;
-            --darker: #0a0122;
-            --light: #f8f9fa;
-            --gray: #adb5bd;
-            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            --shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            --card-bg: rgba(255, 255, 255, 0.05);
+            --black: #000000;
+            --white: #ffffff;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            transition: var(--transition);
         }
 
         body {
             font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
-            background-color: var(--dark);
-            color: var(--light);
+            background-color: var(--black);
+            color: var(--white);
             overflow-x: hidden;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(123, 44, 191, 0.1) 0%, transparent 20%),
-                radial-gradient(circle at 90% 80%, rgba(255, 158, 0, 0.1) 0%, transparent 20%);
-            animation: gradientPulse 15s ease infinite;
-        }
-
-        @keyframes gradientPulse {
-            0% { background-position: 10% 20%, 90% 80%; }
-            50% { background-position: 15% 25%, 85% 75%; }
-            100% { background-position: 10% 20%, 90% 80%; }
         }
 
         .navbar {
@@ -51,11 +44,10 @@
             top: 0;
             width: 100%;
             padding: 1.5rem 2rem;
-            background: rgba(16, 0, 43, 0.9);
+            background: rgba(0, 0, 0, 0.95);
             backdrop-filter: blur(10px);
             z-index: 1000;
-            box-shadow: var(--shadow);
-            border-bottom: 1px solid rgba(123, 44, 191, 0.2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .navbar-container {
@@ -71,21 +63,22 @@
             align-items: center;
             gap: 0.8rem;
             text-decoration: none;
+            color: var(--white);
         }
 
         .logo-icon {
-            font-size: 2rem;
-            color: var(--primary);
-            animation: pulse 2s infinite;
+            color: var(--white);
+            transition: var(--transition);
+        }
+
+        .logo-icon:hover {
+            transform: rotate(15deg);
         }
 
         .logo-text {
             font-size: 1.5rem;
             font-weight: 700;
-            background: linear-gradient(to right, var(--primary), var(--accent));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            color: var(--white);
         }
 
         .menu {
@@ -94,7 +87,7 @@
         }
 
         .menu-link {
-            color: var(--light);
+            color: var(--white);
             text-decoration: none;
             font-weight: 500;
             position: relative;
@@ -102,6 +95,7 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            transition: var(--transition);
         }
 
         .menu-link::after {
@@ -111,7 +105,7 @@
             height: 2px;
             bottom: 0;
             left: 0;
-            background: linear-gradient(to right, var(--primary), var(--accent));
+            background: var(--white);
             transition: var(--transition);
         }
 
@@ -120,19 +114,14 @@
         }
 
         .menu-link:hover {
-            color: var(--primary);
-        }
-
-        .menu-link i {
-            font-size: 1.1rem;
+            color: var(--gray-300);
         }
 
         .menu-toggle {
             display: none;
             background: none;
             border: none;
-            color: var(--light);
-            font-size: 1.5rem;
+            color: var(--white);
             cursor: pointer;
             z-index: 1001;
         }
@@ -155,11 +144,9 @@
         .hero-title {
             font-size: 3.5rem;
             margin-bottom: 1.5rem;
-            background: linear-gradient(to right, var(--primary), var(--accent));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            color: var(--white);
             line-height: 1.2;
+            font-weight: 700;
             opacity: 0;
             transform: translateY(20px);
             animation: fadeInUp 1s ease-out forwards;
@@ -167,7 +154,7 @@
 
         .hero-subtitle {
             font-size: 1.3rem;
-            color: var(--gray);
+            color: var(--gray-400);
             margin-bottom: 2.5rem;
             max-width: 700px;
             margin-left: auto;
@@ -188,36 +175,36 @@
         }
 
         .btn {
-            padding: 0.8rem 2rem;
-            border-radius: 50px;
+            padding: 0.875rem 2rem;
+            border-radius: 8px;
             font-weight: 600;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
             transition: var(--transition);
-            box-shadow: var(--shadow);
+            border: 1px solid transparent;
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
+            background: var(--white);
+            color: var(--black);
+            border-color: var(--white);
         }
 
         .btn-primary:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(123, 44, 191, 0.4);
+            box-shadow: 0 10px 25px rgba(255, 255, 255, 0.2);
         }
 
         .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--light);
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: transparent;
+            color: var(--white);
+            border-color: rgba(255, 255, 255, 0.3);
         }
 
         .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
             transform: translateY(-3px);
         }
 
@@ -231,10 +218,8 @@
             text-align: center;
             font-size: 2.5rem;
             margin-bottom: 3rem;
-            background: linear-gradient(to right, var(--primary), var(--accent));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            color: var(--white);
+            font-weight: 700;
             opacity: 0;
             transform: translateY(20px);
             animation: fadeInUp 1s ease-out forwards;
@@ -247,15 +232,16 @@
         }
 
         .feature-card {
-            background: var(--card-bg);
-            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
             padding: 2rem;
             text-align: center;
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(123, 44, 191, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             opacity: 0;
             transform: translateY(20px);
             animation: fadeInUp 0.8s ease-out forwards;
+            transition: var(--transition);
         }
 
         .feature-card:nth-child(1) { animation-delay: 0.2s; }
@@ -266,24 +252,24 @@
 
         .feature-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(123, 44, 191, 0.3);
-            border-color: rgba(123, 44, 191, 0.4);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
         }
 
         .feature-icon {
-            font-size: 3rem;
             margin-bottom: 1.5rem;
-            color: var(--primary);
+            color: var(--white);
         }
 
         .feature-title {
             font-size: 1.5rem;
             margin-bottom: 1rem;
-            color: var(--light);
+            color: var(--white);
+            font-weight: 600;
         }
 
         .feature-description {
-            color: var(--gray);
+            color: var(--gray-400);
             font-size: 1rem;
             line-height: 1.6;
         }
@@ -291,10 +277,10 @@
         .cta {
             padding: 5rem 2rem;
             text-align: center;
-            background: rgba(123, 44, 191, 0.1);
+            background: rgba(255, 255, 255, 0.03);
             margin: 3rem 0;
-            border-top: 1px solid rgba(123, 44, 191, 0.2);
-            border-bottom: 1px solid rgba(123, 44, 191, 0.2);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .cta-content {
@@ -305,21 +291,22 @@
         .cta-title {
             font-size: 2.2rem;
             margin-bottom: 1.5rem;
-            color: var(--light);
+            color: var(--white);
+            font-weight: 700;
         }
 
         .cta-text {
-            color: var(--gray);
+            color: var(--gray-400);
             margin-bottom: 2rem;
             font-size: 1.1rem;
             line-height: 1.7;
         }
 
         footer {
-            background: var(--darker);
+            background: rgba(0, 0, 0, 0.95);
             padding: 3rem 2rem 2rem;
             margin-top: auto;
-            border-top: 1px solid rgba(123, 44, 191, 0.2);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .footer-content {
@@ -338,22 +325,14 @@
             text-decoration: none;
         }
 
-        .footer-logo-icon {
-            font-size: 1.8rem;
-            color: var(--primary);
-        }
-
         .footer-logo-text {
             font-size: 1.3rem;
             font-weight: 700;
-            background: linear-gradient(to right, var(--primary), var(--accent));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            color: var(--white);
         }
 
         .footer-description {
-            color: var(--gray);
+            color: var(--gray-400);
             margin-bottom: 1.5rem;
             line-height: 1.6;
         }
@@ -364,20 +343,21 @@
         }
 
         .footer-link {
-            color: var(--gray);
-            font-size: 1.2rem;
+            color: var(--gray-400);
             transition: var(--transition);
+            cursor: pointer;
         }
 
         .footer-link:hover {
-            color: var(--primary);
+            color: var(--white);
             transform: translateY(-3px);
         }
 
         .footer-column h3 {
-            color: var(--light);
+            color: var(--white);
             margin-bottom: 1.5rem;
             font-size: 1.2rem;
+            font-weight: 600;
             position: relative;
             padding-bottom: 0.5rem;
         }
@@ -389,7 +369,7 @@
             height: 2px;
             bottom: 0;
             left: 0;
-            background: linear-gradient(to right, var(--primary), var(--accent));
+            background: var(--white);
         }
 
         .footer-menu {
@@ -401,7 +381,7 @@
         }
 
         .footer-menu-link {
-            color: var(--gray);
+            color: var(--gray-400);
             text-decoration: none;
             transition: var(--transition);
             display: flex;
@@ -410,12 +390,8 @@
         }
 
         .footer-menu-link:hover {
-            color: var(--primary);
+            color: var(--white);
             padding-left: 5px;
-        }
-
-        .footer-menu-link i {
-            font-size: 0.9rem;
         }
 
         .copyright {
@@ -423,12 +399,12 @@
             margin-top: 3rem;
             padding-top: 2rem;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--gray);
+            color: var(--gray-400);
             font-size: 0.9rem;
         }
 
         .copyright a {
-            color: var(--primary);
+            color: var(--white);
             text-decoration: none;
             font-weight: 600;
         }
@@ -444,12 +420,6 @@
             }
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-
         @media (max-width: 768px) {
             .menu {
                 position: fixed;
@@ -457,7 +427,7 @@
                 left: -100%;
                 width: 80%;
                 height: 100vh;
-                background: var(--darker);
+                background: var(--black);
                 flex-direction: column;
                 align-items: flex-start;
                 justify-content: center;
@@ -465,7 +435,7 @@
                 gap: 1.5rem;
                 z-index: 1000;
                 transition: var(--transition);
-                box-shadow: 5px 0 30px rgba(0, 0, 0, 0.3);
+                border-right: 1px solid rgba(255, 255, 255, 0.1);
             }
 
             .menu.active {
@@ -506,81 +476,37 @@
                 grid-template-columns: 1fr;
             }
         }
-
-        #rightClickMessage {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(16, 0, 43, 0.95);
-            color: var(--accent);
-            padding: 1rem 2rem;
-            border-radius: 8px;
-            box-shadow: 0 0 30px rgba(123, 44, 191, 0.5);
-            z-index: 9999;
-            font-size: 1rem;
-            text-align: center;
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--primary);
-        }
-
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            overflow: hidden;
-        }
-
-        .particle {
-            position: absolute;
-            background: rgba(123, 44, 191, 0.3);
-            border-radius: 50%;
-            animation: float linear infinite;
-        }
-
-        @keyframes float {
-            0% { transform: translateY(0) rotate(0deg); }
-            100% { transform: translateY(-100vh) rotate(360deg); }
-        }
     </style>
 </head>
 <body>
-    <div class="particles" id="particles"></div>
-    
-    <!-- Navigation -->
     <nav class="navbar">
         <div class="navbar-container">
             <a href="#" class="logo">
-                <i class="fas fa-robot logo-icon"></i>
+                <i data-lucide="bot" class="logo-icon" width="32" height="32"></i>
                 <span class="logo-text">SUBZERO MD</span>
             </a>
-            
+
             <button class="menu-toggle" id="menuToggle">
-                <i class="fas fa-bars"></i>
+                <i data-lucide="menu" width="24" height="24"></i>
             </button>
-            
+
             <div class="menu" id="menu">
                 <a href="#" class="menu-link" data-url="https://github.com/mrfr8nk/SUBZERO-MD" target="_blank">
-                    <i class="fab fa-github"></i> Source Code
+                    <i data-lucide="github" width="20" height="20"></i> Source Code
                 </a>
                 <a href="./pair" class="menu-link">
-                    <i class="fas fa-link"></i> Pair Code
+                    <i data-lucide="link" width="20" height="20"></i> Pair Code
                 </a>
                 <a href="./qr" class="menu-link">
-                    <i class="fas fa-qrcode"></i> QR Code
+                    <i data-lucide="qr-code" width="20" height="20"></i> QR Code
                 </a>
                 <a href="#" class="menu-link" data-url="https://wa.me/263719647303" target="_blank">
-                    <i class="fab fa-whatsapp"></i> Support
+                    <i data-lucide="message-circle" width="20" height="20"></i> Support
                 </a>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
             <h1 class="hero-title">Advanced WhatsApp Bot Solution</h1>
@@ -589,62 +515,61 @@
             </p>
             <div class="hero-buttons">
                 <a href="./pair" class="btn btn-primary">
-                    <i class="fas fa-link"></i> Get Pair Code
+                    <i data-lucide="link" width="20" height="20"></i> Get Pair Code
                 </a>
                 <a href="./qr" class="btn btn-secondary">
-                    <i class="fas fa-qrcode"></i> Scan QR Code
+                    <i data-lucide="qr-code" width="20" height="20"></i> Scan QR Code
                 </a>
             </div>
         </div>
     </section>
 
-    <!-- Features Section -->
     <section class="features">
         <h2 class="section-title">Key Features</h2>
         <div class="features-grid">
             <div class="feature-card" data-url="./pair">
                 <div class="feature-icon">
-                    <i class="fas fa-link"></i>
+                    <i data-lucide="link" width="48" height="48"></i>
                 </div>
                 <h3 class="feature-title">Pair Code Login</h3>
                 <p class="feature-description">
                     Securely connect your WhatsApp account using a simple pairing code without needing physical access to your phone
                 </p>
             </div>
-            
+
             <div class="feature-card" data-url="./qr">
                 <div class="feature-icon">
-                    <i class="fas fa-qrcode"></i>
+                    <i data-lucide="qr-code" width="48" height="48"></i>
                 </div>
                 <h3 class="feature-title">QR Code Login</h3>
                 <p class="feature-description">
                     Traditional QR code scanning method for quick and easy connection to your WhatsApp account
                 </p>
             </div>
-            
+
             <div class="feature-card" data-url="https://github.com/mrfr8nk/SUBZERO-MD" target="_blank">
                 <div class="feature-icon">
-                    <i class="fas fa-code"></i>
+                    <i data-lucide="code-2" width="48" height="48"></i>
                 </div>
                 <h3 class="feature-title">Source Code</h3>
                 <p class="feature-description">
                     Fully available codebase that you can customize and extend according to your needs
                 </p>
             </div>
-            
+
             <div class="feature-card" data-url="https://wa.me/263719647303" target="_blank">
                 <div class="feature-icon">
-                    <i class="fas fa-headset"></i>
+                    <i data-lucide="headphones" width="48" height="48"></i>
                 </div>
                 <h3 class="feature-title">Premium Support</h3>
                 <p class="feature-description">
                     Get dedicated support from our team to help you set up and customize your bot
                 </p>
             </div>
-            
+
             <div class="feature-card" data-url="https://whatsapp.com/channel/0029VaW18s42GJOw1CexS32X" target="_blank">
                 <div class="feature-icon">
-                    <i class="fab fa-whatsapp"></i>
+                    <i data-lucide="rocket" width="48" height="48"></i>
                 </div>
                 <h3 class="feature-title">Regular Updates</h3>
                 <p class="feature-description">
@@ -654,7 +579,6 @@
         </div>
     </section>
 
-    <!-- CTA Section -->
     <section class="cta">
         <div class="cta-content">
             <h2 class="cta-title">Ready to Enhance Your WhatsApp Experience?</h2>
@@ -664,21 +588,20 @@
             </p>
             <div class="hero-buttons">
                 <a href="./pair" class="btn btn-primary">
-                    <i class="fas fa-link"></i> Connect Now
+                    <i data-lucide="link" width="20" height="20"></i> Connect Now
                 </a>
                 <a href="https://github.com/mrfr8nk/SUBZERO-MD" class="btn btn-secondary" target="_blank">
-                    <i class="fab fa-github"></i> View on GitHub
+                    <i data-lucide="github" width="20" height="20"></i> View on GitHub
                 </a>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
     <footer>
         <div class="footer-content">
             <div class="footer-column">
                 <a href="#" class="footer-logo">
-                    <i class="fas fa-robot footer-logo-icon"></i>
+                    <i data-lucide="bot" width="28" height="28"></i>
                     <span class="footer-logo-text">SUBZERO MD</span>
                 </a>
                 <p class="footer-description">
@@ -686,106 +609,75 @@
                 </p>
                 <div class="footer-links">
                     <a href="https://github.com/mrfr8nk/SUBZERO-MD" class="footer-link" target="_blank">
-                        <i class="fab fa-github"></i>
+                        <i data-lucide="github" width="20" height="20"></i>
                     </a>
                     <a href="https://wa.me/263719647303" class="footer-link" target="_blank">
-                        <i class="fab fa-whatsapp"></i>
+                        <i data-lucide="message-circle" width="20" height="20"></i>
                     </a>
                 </div>
             </div>
-            
+
             <div class="footer-column">
                 <h3>Quick Links</h3>
                 <ul class="footer-menu">
                     <li class="footer-menu-item">
                         <a href="./pair" class="footer-menu-link">
-                            <i class="fas fa-chevron-right"></i> Pair Code
+                            <i data-lucide="chevron-right" width="16" height="16"></i> Pair Code
                         </a>
                     </li>
                     <li class="footer-menu-item">
                         <a href="./qr" class="footer-menu-link">
-                            <i class="fas fa-chevron-right"></i> QR Code
+                            <i data-lucide="chevron-right" width="16" height="16"></i> QR Code
                         </a>
                     </li>
                     <li class="footer-menu-item">
                         <a href="https://github.com/mrfr8nk/SUBZERO-MD" class="footer-menu-link" target="_blank">
-                            <i class="fas fa-chevron-right"></i> Documentation
+                            <i data-lucide="chevron-right" width="16" height="16"></i> Documentation
                         </a>
                     </li>
                 </ul>
             </div>
-            
+
             <div class="footer-column">
                 <h3>Support</h3>
                 <ul class="footer-menu">
                     <li class="footer-menu-item">
                         <a href="https://wa.me/263719647303" class="footer-menu-link" target="_blank">
-                            <i class="fas fa-chevron-right"></i> WhatsApp
+                            <i data-lucide="chevron-right" width="16" height="16"></i> WhatsApp
                         </a>
                     </li>
                     <li class="footer-menu-item">
                         <a href="https://whatsapp.com/channel/0029VaW18s42GJOw1CexS32X" class="footer-menu-link" target="_blank">
-                            <i class="fas fa-chevron-right"></i> WhatsApp Channel
+                            <i data-lucide="chevron-right" width="16" height="16"></i> WhatsApp Channel
                         </a>
                     </li>
                     <li class="footer-menu-item">
                         <a href="https://github.com/mrfr8nk/SUBZERO-MD/issues" class="footer-menu-link" target="_blank">
-                            <i class="fas fa-chevron-right"></i> Report Issues
+                            <i data-lucide="chevron-right" width="16" height="16"></i> Report Issues
                         </a>
                     </li>
                 </ul>
             </div>
         </div>
-        
+
         <div class="copyright">
             &copy; <span id="currentYear"></span> SUBZERO MD by <a href="https://github.com/mrfr8nk" target="_blank">Mr Frank OFC</a>
         </div>
     </footer>
 
-    <div id="rightClickMessage">Action restricted by GiftedTech</div>
-
     <script>
-        function createParticles() {
-            const particlesContainer = document.getElementById('particles');
-            const particleCount = window.innerWidth < 768 ? 20 : 40;
-            
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.classList.add('particle');
-                
-                const size = Math.random() * 10 + 5;
-                particle.style.width = `${size}px`;
-                particle.style.height = `${size}px`;
-                
-                particle.style.left = `${Math.random() * 100}%`;
-                particle.style.top = `${Math.random() * 100}%`;
-
-                const duration = Math.random() * 20 + 10;
-                particle.style.animationDuration = `${duration}s`;
-                particle.style.animationDelay = `${Math.random() * 5}s`;
-                
-                particle.style.opacity = Math.random() * 0.5 + 0.1;
-                
-                particlesContainer.appendChild(particle);
-            }
-        }
-        
-        createParticles();
+        lucide.createIcons();
 
         const menuToggle = document.getElementById('menuToggle');
         const menu = document.getElementById('menu');
 
         menuToggle.addEventListener('click', () => {
             menu.classList.toggle('active');
-            menuToggle.innerHTML = menu.classList.contains('active') 
-                ? '<i class="fas fa-times"></i>' 
-                : '<i class="fas fa-bars"></i>';
         });
 
         document.querySelectorAll('.menu-link').forEach(link => {
             link.addEventListener('click', () => {
                 menu.classList.remove('active');
-                menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
             });
         });
 
@@ -793,11 +685,11 @@
 
         const animateOnScroll = () => {
             const elements = document.querySelectorAll('.feature-card, .section-title');
-            
+
             elements.forEach(element => {
                 const elementPosition = element.getBoundingClientRect().top;
                 const screenPosition = window.innerHeight / 1.2;
-                
+
                 if (elementPosition < screenPosition) {
                     element.style.animation = `fadeInUp 0.8s ease-out forwards`;
                 }
@@ -814,25 +706,6 @@
                 const target = this.getAttribute('target') || '_self';
                 window.open(url, target);
             });
-        });
-
-        document.addEventListener('contextmenu', function(e) {
-            e.preventDefault();
-            const message = document.getElementById('rightClickMessage');
-            message.style.display = 'block';
-            setTimeout(() => {
-                message.style.display = 'none';
-            }, 2000);
-        });
-
-        document.querySelectorAll('[data-url]').forEach(link => {
-            link.addEventListener('dragstart', function(e) {
-                e.preventDefault();
-            });
-        });
-
-        document.addEventListener('selectstart', function(e) {
-            e.preventDefault();
         });
     </script>
 </body>
