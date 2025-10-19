@@ -1,4 +1,4 @@
-const { 
+const {
     giftedId,
     removeFile,
     generateRandomCode
@@ -39,8 +39,8 @@ router.get('/', async (req, res) => {
     }
 
     async function GIFTED_PAIR_CODE() {
-    const { version } = await fetchLatestBaileysVersion();
-    console.log(version);
+        const { version } = await fetchLatestBaileysVersion();
+        console.log(version);
         const { state, saveCreds } = await useMultiFileAuthState(path.join(sessionDir, id));
         try {
             let Gifted = giftedConnect({
@@ -57,7 +57,7 @@ router.get('/', async (req, res) => {
                 shouldIgnoreJid: jid => !!jid?.endsWith('@g.us'),
                 getMessage: async () => undefined,
                 markOnlineOnConnect: true,
-                connectTimeoutMs: 60000, 
+                connectTimeoutMs: 60000,
                 keepAliveIntervalMs: 30000
             });
 
@@ -118,35 +118,15 @@ router.get('/', async (req, res) => {
 
                     try {
                         let compressedData = zlib.gzipSync(sessionData);
-                        let b64data = compressedData.toString('base64');
+                        const b64Data = compressedData.toString('base64');
 
-                        let shortSessionId;
-                        let stored = false;
-                        let retries = 0;
-                        const maxRetries = 3;
+                        const sessionId = await generateUniqueSessionId();
+                        await storeSession(sessionId, b64Data, num);
 
-                        while (!stored && retries < maxRetries) {
-                            try {
-                                shortSessionId = await generateUniqueSessionId(6);
-                                await storeSession(shortSessionId, b64data);
-                                stored = true;
-                            } catch (storeError) {
-                                if (storeError.message === 'SESSION_ID_DUPLICATE') {
-                                    retries++;
-                                    console.log(`Duplicate session ID, retrying... (${retries}/${maxRetries})`);
-                                } else {
-                                    throw storeError;
-                                }
-                            }
-                        }
-
-                        if (!stored) {
-                            throw new Error('Failed to store session after maximum retries');
-                        }
-
+                        const shortSessionId = sessionId.slice(-6);
                         const sessionIdWithPrefix = 'Darex~' + shortSessionId;
 
-                        await delay(5000); 
+                        await delay(5000);
 
                         let sessionSent = false;
                         let sendAttempts = 0;
@@ -191,11 +171,11 @@ router.get('/', async (req, res) => {
 2️⃣ Deploy
 3️⃣ Enjoy seamless automation! 🤖  
 
-🔗 *Support Channel:* 
+🔗 *Support Channel:*
 👉 https://whatsapp.com/channel/0029VagQEmB002T7MWo3Sj1D
 
-⭐ *Follow Us On GitHub:* 
-👉 https://github.com/mrfr8nk/  
+⭐ *Follow Us On GitHub:*
+👉 https://github.com/mrfr8nk/
 
 🚀 _Thanks for choosing SUBZERO-BOT!_ ✨`;
 
@@ -245,6 +225,13 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/admin', async (req, res) => {
+    const passcode = "darex123";
+    const providedPasscode = req.query.passcode;
+
+    if (providedPasscode !== passcode) {
+        return res.status(401).json({ error: "Invalid passcode" });
+    }
+
     try {
         const sessions = await getAllSessions();
         res.json(sessions);

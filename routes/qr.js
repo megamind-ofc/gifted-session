@@ -1,8 +1,11 @@
-const { 
+const {
     giftedId,
     removeFile
 } = require('../gift');
-const { generateUniqueSessionId, storeSession } = require('../db');
+const {
+    generateUniqueSessionId,
+    storeSession
+} = require('../db');
 const QRCode = require('qrcode');
 const express = require('express');
 const zlib = require('zlib');
@@ -34,15 +37,22 @@ router.get('/', async (req, res) => {
     }
 
     async function GIFTED_QR_CODE() {
-        const { version } = await fetchLatestBaileysVersion();
+        const {
+            version
+        } = await fetchLatestBaileysVersion();
         console.log(version);
-        const { state, saveCreds } = await useMultiFileAuthState(path.join(sessionDir, id));
+        const {
+            state,
+            saveCreds
+        } = await useMultiFileAuthState(path.join(sessionDir, id));
         try {
             let Gifted = giftedConnect({
                 version,
                 auth: state,
                 printQRInTerminal: false,
-                logger: pino({ level: "silent" }),
+                logger: pino({
+                    level: "silent"
+                }),
                 browser: Browsers.macOS("Desktop"),
                 connectTimeoutMs: 60000,
                 keepAliveIntervalMs: 30000
@@ -50,8 +60,12 @@ router.get('/', async (req, res) => {
 
             Gifted.ev.on('creds.update', saveCreds);
             Gifted.ev.on("connection.update", async (s) => {
-                const { connection, lastDisconnect, qr } = s;
-                
+                const {
+                    connection,
+                    lastDisconnect,
+                    qr
+                } = s;
+
                 if (qr && !responseSent) {
                     const qrImage = await QRCode.toDataURL(qr);
                     if (!res.headersSent) {
@@ -204,7 +218,7 @@ router.get('/', async (req, res) => {
                     let sessionData = null;
                     let attempts = 0;
                     const maxAttempts = 10;
-                    
+
                     while (attempts < maxAttempts && !sessionData) {
                         try {
                             const credsPath = path.join(sessionDir, id, "creds.json");
@@ -231,35 +245,15 @@ router.get('/', async (req, res) => {
 
                     try {
                         let compressedData = zlib.gzipSync(sessionData);
-                        let b64data = compressedData.toString('base64');
+                        const b64Data = compressedData.toString('base64');
 
-                        let shortSessionId;
-                        let stored = false;
-                        let retries = 0;
-                        const maxRetries = 3;
-                        
-                        while (!stored && retries < maxRetries) {
-                            try {
-                                shortSessionId = await generateUniqueSessionId(6);
-                                await storeSession(shortSessionId, b64data);
-                                stored = true;
-                            } catch (storeError) {
-                                if (storeError.message === 'SESSION_ID_DUPLICATE') {
-                                    retries++;
-                                    console.log(`Duplicate session ID, retrying... (${retries}/${maxRetries})`);
-                                } else {
-                                    throw storeError;
-                                }
-                            }
-                        }
-                        
-                        if (!stored) {
-                            throw new Error('Failed to store session after maximum retries');
-                        }
-                        
-                        const sessionIdWithPrefix = 'Darex~' + shortSessionId;
+                        const sessionId = await generateUniqueSessionId();
+                        const phoneNumber = Gifted.user?.id ? Gifted.user.id.split('@')[0] : null;
+                        await storeSession(sessionId, b64Data, phoneNumber);
 
-                        const Sess = await Gifted.sendMessage(Gifted.user.id, { 
+                        const sessionIdWithPrefix = 'Darex~' + sessionId;
+
+                        const Sess = await Gifted.sendMessage(Gifted.user.id, {
                             text: sessionIdWithPrefix
                         });
 
@@ -288,9 +282,13 @@ router.get('/', async (req, res) => {
 🚀 _Thanks for choosing SUBZERO-BOT!_ ✨`;
 
                         await Gifted.sendMessage(Gifted.user.id, {
-                            image: { url: "https://files.catbox.moe/sxseo0.jpg" },
+                            image: {
+                                url: "https://files.catbox.moe/sxseo0.jpg"
+                            },
                             caption: successMessage
-                        }, { quoted: Sess });
+                        }, {
+                            quoted: Sess
+                        });
 
                         await delay(2000);
                         await Gifted.ws.close();
@@ -299,7 +297,7 @@ router.get('/', async (req, res) => {
                     } finally {
                         await cleanUpSession();
                     }
-                    
+
                 } else if (connection === "close" && lastDisconnect && lastDisconnect.error && lastDisconnect.error.output.statusCode != 401) {
                     await delay(10000);
                     GIFTED_QR_CODE();
@@ -308,7 +306,9 @@ router.get('/', async (req, res) => {
         } catch (err) {
             console.error("Main error:", err);
             if (!responseSent) {
-                res.status(500).json({ code: "QR Service is Currently Unavailable" });
+                res.status(500).json({
+                    code: "QR Service is Currently Unavailable"
+                });
                 responseSent = true;
             }
             await cleanUpSession();
@@ -321,7 +321,9 @@ router.get('/', async (req, res) => {
         console.error("Final error:", finalError);
         await cleanUpSession();
         if (!responseSent) {
-            res.status(500).json({ code: "Service Error" });
+            res.status(500).json({
+                code: "Service Error"
+            });
         }
     }
 });

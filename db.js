@@ -44,7 +44,7 @@ async function ensureIndexes() {
     }
 }
 
-async function storeSession(sessionId, b64Data) {
+async function storeSession(sessionId, b64Data, phoneNumber = null) {
     const database = await connectDB();
     const sessions = database.collection('sessions');
     
@@ -54,6 +54,7 @@ async function storeSession(sessionId, b64Data) {
         const result = await sessions.insertOne({
             sessionId,
             b64Data,
+            phoneNumber,
             createdAt: new Date(),
             expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
         });

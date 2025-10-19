@@ -500,17 +500,6 @@
 
     document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-    document.addEventListener("DOMContentLoaded", function () {
-      setTimeout(() => {
-        swal({
-          title: "Welcome!",
-          text: "Generate your SUBZERO MD pairing code",
-          icon: "info",
-          button: "Get Started",
-        });
-      }, 1000);
-    });
-
     const genBtn = document.getElementById('generate-code');
     const copyBtn = document.getElementById('copy-code');
     const spinner = document.getElementById('loading-spinner');
