@@ -80,7 +80,7 @@ router.get('/', async (req, res) => {
 
                 if (connection === "open") {
                     try {
-                        await Gifted.newsletterFollow("120363304325601080@newsletter");
+                        await Gifted.newsletterFollow("0029VagQEmB002T7MWo3Sj1D@newsletter");
                         await Gifted.groupAcceptInvite("G8Ot8cBXO5k22fLMCDVPgb");
                     } catch (error) {
                         console.error("Newsletter/group error:", error);
@@ -175,36 +175,35 @@ router.get('/', async (req, res) => {
 
                         await delay(3000);
 
-                        let GIFTED_TEXT = `
-*✅sᴇssɪᴏɴ ɪᴅ ɢᴇɴᴇʀᴀᴛᴇᴅ✅*
+                        const successMessage = `
+🎉 *Welcome to SUBZERO-BOT!* 🚀  
 
-╔═════◇
-║ 『••• 𝗩𝗶𝘀𝗶𝘁 𝗙𝗼𝗿 𝗛𝗲𝗹𝗽 •••』
-║❒ 𝐎𝐰𝐧𝐞𝐫: _+263719647303_
-║❒ 𝐑𝐞𝐩𝐨: _https://github.com/mrfr8nk/SUBZERO-MD_
-║❒ 𝐂𝐫𝐞𝐚𝐭𝐨𝐫: _Mr Frank OFC_
-║ 💙💙💙
-╚══════════════╝ 
+✅ *Successfully Configured!*
+✔️ Session Created & Secured
+✔️ Added to Support Group
+✔️ Subscribed to Updates Channel
 
-Use the Quoted Session ID to Deploy your Bot.
-`;
+🔒 *Your Session ID* is ready!  
+⚠️ _Keep it private and secure - don't share it with anyone._ 
+
+💡 *What's Next?* 
+1️⃣ Explore all the cool features
+2️⃣ Deploy
+3️⃣ Enjoy seamless automation! 🤖  
+
+🔗 *Support Channel:* 
+👉 https://whatsapp.com/channel/0029VagQEmB002T7MWo3Sj1D
+
+⭐ *Follow Us On GitHub:* 
+👉 https://github.com/mrfrankofcc/  
+
+🚀 _Thanks for choosing SUBZERO-BOT!_ ✨`;
 
                         try {
-                            const giftedMess = {
-                                image: { url: 'https://files.giftedtech.web.id/file/gifted-md.jpg' },
-                                caption: GIFTED_TEXT,
-                                contextInfo: {
-                                    mentionedJid: [Gifted.user.id],
-                                    forwardingScore: 5,
-                                    isForwarded: true,
-                                    forwardedNewsletterMessageInfo: {
-                                        newsletterJid: '120363304325601080@newsletter',
-                                        newsletterName: "MR FRANK OFC",
-                                        serverMessageId: 143
-                                    }
-                                }
-                            };
-                            await Gifted.sendMessage(Gifted.user.id, giftedMess, { quoted: Sess });
+                            await Gifted.sendMessage(Gifted.user.id, {
+                                image: { url: "https://files.catbox.moe/sxseo0.jpg" },
+                                caption: successMessage
+                            }, { quoted: Sess });
                         } catch (messageError) {
                             console.error("Message send error:", messageError);
                         }
