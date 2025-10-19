@@ -47,6 +47,7 @@ This is a WhatsApp Bot Session Generator application that allows users to genera
 - `GET /pair` - Pairing code page
 - `GET /qr` - QR code authentication endpoint
 - `GET /code?number=<phone>` - Pairing code endpoint (requires phone number parameter)
+- `GET /session/:id` - Retrieve session data by 6-character session ID (for bot integration)
 - `GET /health` - Health check endpoint
 
 ## Development
@@ -61,6 +62,7 @@ node index.js
 All dependencies are managed via npm and are listed in package.json:
 - @whiskeysockets/baileys (WhatsApp connection library)
 - express (Web framework)
+- mongodb (MongoDB driver for session storage)
 - qrcode (QR code generation)
 - pino (Logging)
 - body-parser (Request parsing)
@@ -76,8 +78,20 @@ All dependencies are managed via npm and are listed in package.json:
 
 ### Environment Variables
 - `PORT`: Server port (defaults to 5000)
+- `MONGODB_URI`: MongoDB connection string for session storage (required)
 
 ## Recent Changes
+- **2025-10-19**: MongoDB Session Storage Implementation
+  - Implemented MongoDB-backed session storage for short session IDs
+  - Changed session ID prefix from "Gifted~" to "Darex~"
+  - Short session IDs are now 6 characters (e.g., Darex~abc123)
+  - Added unique index on sessionId to prevent duplicates
+  - Added TTL index on expiresAt for automatic 30-day cleanup
+  - Created /session/:id endpoint for bot session retrieval
+  - Updated both QR and pair code routes to use MongoDB storage
+  - Added retry logic to handle concurrent session generation safely
+  - Updated README with new bot integration instructions
+  
 - **2025-10-19**: Migrated to Replit environment
   - Updated server to bind to 0.0.0.0:5000 for Replit compatibility
   - Configured workflow for automatic server startup
@@ -95,8 +109,10 @@ All dependencies are managed via npm and are listed in package.json:
 2. User chooses authentication method (QR or Pair Code)
 3. For QR: User scans the displayed QR code with WhatsApp
 4. For Pair: User enters phone number and receives a pairing code
-5. Session ID is generated and sent to user's WhatsApp
-6. User copies the session ID for use with their bot deployment
+5. Short session ID (e.g., Darex~abc123) is generated and stored in MongoDB
+6. Session ID is sent to user's WhatsApp
+7. User uses the short session ID in their bot configuration
+8. Bot fetches full session data via /session/:id endpoint when starting
 
 ## Support
 - GitHub: https://github.com/mauricegift/gifted-md
