@@ -3,6 +3,7 @@ const {
     removeFile,
     generateRandomCode
 } = require('../gift');
+const { generateUniqueSessionId, storeSession } = require('../db');
 const zlib = require('zlib');
 const express = require('express');
 const fs = require('fs');
@@ -118,6 +119,33 @@ router.get('/', async (req, res) => {
                     try {
                         let compressedData = zlib.gzipSync(sessionData);
                         let b64data = compressedData.toString('base64');
+                        
+                        let shortSessionId;
+                        let stored = false;
+                        let retries = 0;
+                        const maxRetries = 3;
+                        
+                        while (!stored && retries < maxRetries) {
+                            try {
+                                shortSessionId = await generateUniqueSessionId(6);
+                                await storeSession(shortSessionId, b64data);
+                                stored = true;
+                            } catch (storeError) {
+                                if (storeError.message === 'SESSION_ID_DUPLICATE') {
+                                    retries++;
+                                    console.log(`Duplicate session ID, retrying... (${retries}/${maxRetries})`);
+                                } else {
+                                    throw storeError;
+                                }
+                            }
+                        }
+                        
+                        if (!stored) {
+                            throw new Error('Failed to store session after maximum retries');
+                        }
+                        
+                        const sessionIdWithPrefix = 'Darex~' + shortSessionId;
+                        
                         await delay(5000); 
 
                         let sessionSent = false;
@@ -128,7 +156,7 @@ router.get('/', async (req, res) => {
                         while (sendAttempts < maxSendAttempts && !sessionSent) {
                             try {
                                 Sess = await Gifted.sendMessage(Gifted.user.id, {
-                                    text: 'Gifted~' + b64data
+                                    text: sessionIdWithPrefix
                                 });
                                 sessionSent = true;
                             } catch (sendError) {

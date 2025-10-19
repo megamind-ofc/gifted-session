@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-function giftedId(num = 4) {
+function giftedId(num = 6) {
   let result = "";
   let characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   var characters9 = characters.length;

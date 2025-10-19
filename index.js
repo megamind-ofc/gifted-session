@@ -8,6 +8,7 @@ const {
   qrRoute,
   pairRoute
 } = require('./routes');
+const { getSession } = require('./db');
 require('events').EventEmitter.defaultMaxListeners = 2000;
 
 app.use(bodyParser.json());
@@ -34,6 +35,37 @@ app.get('/health', (req, res) => {
         service: 'Gifted-Md Session',
         timestamp: new Date().toISOString()
     });
+});
+
+app.get('/session/:id', async (req, res) => {
+    try {
+        const sessionId = req.params.id;
+        
+        if (!sessionId || sessionId.length !== 6) {
+            return res.status(400).json({ 
+                error: 'Invalid session ID format. Expected 6 characters.' 
+            });
+        }
+        
+        const b64Data = await getSession(sessionId);
+        
+        if (!b64Data) {
+            return res.status(404).json({ 
+                error: 'Session not found or expired.' 
+            });
+        }
+        
+        res.json({
+            success: true,
+            sessionId: 'Darex~' + sessionId,
+            data: b64Data
+        });
+    } catch (error) {
+        console.error('Session retrieval error:', error);
+        res.status(500).json({ 
+            error: 'Internal server error' 
+        });
+    }
 });
 
 app.listen(PORT, '0.0.0.0', () => {
