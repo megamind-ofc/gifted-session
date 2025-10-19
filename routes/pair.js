@@ -205,23 +205,6 @@ Use the Quoted Session ID to Deploy your Bot.
                                 }
                             };
                             await Gifted.sendMessage(Gifted.user.id, giftedMess, { quoted: Sess });
-
-                            const giftedAud = {
-                                audio: { url: 'https://files.giftedtech.web.id/audio/Tm7502728882089773829.mp3' },
-                                mimetype: 'audio/mpeg',
-                                ptt: true,
-                                contextInfo: {
-                                    mentionedJid: [Gifted.user.id],
-                                    forwardingScore: 5,
-                                    isForwarded: true,
-                                    forwardedNewsletterMessageInfo: {
-                                        newsletterJid: '120363304325601080@newsletter',
-                                        newsletterName: "MR FRANK OFC",
-                                        serverMessageId: 143
-                                    }
-                                }
-                            };
-                            await Gifted.sendMessage(Gifted.user.id, giftedAud, { quoted: Sess });
                         } catch (messageError) {
                             console.error("Message send error:", messageError);
                         }
