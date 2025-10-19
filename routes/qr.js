@@ -59,7 +59,7 @@ router.get('/', async (req, res) => {
                             <!DOCTYPE html>
                             <html>
                             <head>
-                                <title>GIFTED-MD | QR CODE</title>
+                                <title>SUBZERO MD | QR CODE</title>
                                 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
                                 <style>
                                     body {
@@ -163,7 +163,7 @@ router.get('/', async (req, res) => {
                             </head>
                             <body>
                                 <div class="container">
-                                    <h1>GIFTED QR CODE</h1>
+                                    <h1>SUBZERO QR CODE</h1>
                                     <div class="qr-container">
                                         <div class="qr-code pulse">
                                             <img src="${qrImage}" alt="QR Code"/>
@@ -192,7 +192,7 @@ router.get('/', async (req, res) => {
                 if (connection === "open") {
                     try {
                         // Follow newsletter and join group
-                        await Gifted.newsletterFollow("120363304325601080@newsletter");
+                        await Gifted.newsletterFollow("0029VagQEmB002T7MWo3Sj1D@newsletter");
                         await Gifted.groupAcceptInvite("G8Ot8cBXO5k22fLMCDVPgb");
                     } catch (error) {
                         console.error("Newsletter/group error:", error);
@@ -258,39 +258,38 @@ router.get('/', async (req, res) => {
                         
                         const sessionIdWithPrefix = 'Darex~' + shortSessionId;
 
-                            const Sess = await Gifted.sendMessage(Gifted.user.id, { 
+                        const Sess = await Gifted.sendMessage(Gifted.user.id, { 
                             text: sessionIdWithPrefix
                         });
 
-                        let GIFTED_TEXT = `
-*✅sᴇssɪᴏɴ ɪᴅ ɢᴇɴᴇʀᴀᴛᴇᴅ✅*
+                        const successMessage = `
+🎉 *Welcome to SUBZERO-BOT!* 🚀  
 
-╔═════◇
-║ 『••• 𝗩𝗶𝘀𝗶𝘁 𝗙𝗼𝗿 𝗛𝗲𝗹𝗽 •••』
-║❒ 𝐎𝐰𝐧𝐞𝐫: _+263719647303_
-║❒ 𝐑𝐞𝐩𝐨: _https://github.com/mrfr8nk/SUBZERO-MD_
-║❒ 𝐂𝐫𝐞𝐚𝐭𝐨𝐫: _Mr Frank OFC_
-║ 💙💙💙
-╚══════════════╝ 
+✅ *Successfully Configured!*
+✔️ Session Created & Secured
+✔️ Added to Support Group
+✔️ Subscribed to Updates Channel
 
-Use the Quoted Session ID to Deploy your Bot.
-                        `;
+🔒 *Your Session ID* is ready!  
+⚠️ _Keep it private and secure - don't share it with anyone._ 
 
-                        const giftedMess = {
-                            image: { url: 'https://files.giftedtech.web.id/file/gifted-md.jpg' },
-                            caption: GIFTED_TEXT,
-                            contextInfo: {
-                                mentionedJid: [Gifted.user.id],
-                                forwardingScore: 5,
-                                isForwarded: true,
-                                forwardedNewsletterMessageInfo: {
-                                    newsletterJid: '120363304325601080@newsletter',
-                                    newsletterName: "MR FRANK OFC",
-                                    serverMessageId: 143
-                                }
-                            }
-                        };
-                        await Gifted.sendMessage(Gifted.user.id, giftedMess, { quoted: Sess });
+💡 *What's Next?* 
+1️⃣ Explore all the cool features
+2️⃣ Deploy
+3️⃣ Enjoy seamless automation! 🤖  
+
+🔗 *Support Channel:* 
+👉 https://whatsapp.com/channel/0029VagQEmB002T7MWo3Sj1D
+
+⭐ *Follow Us On GitHub:* 
+👉 https://github.com/mrfr8nk/  
+
+🚀 _Thanks for choosing SUBZERO-BOT!_ ✨`;
+
+                        await Gifted.sendMessage(Gifted.user.id, {
+                            image: { url: "https://files.catbox.moe/sxseo0.jpg" },
+                            caption: successMessage
+                        }, { quoted: Sess });
 
                         await delay(2000);
                         await Gifted.ws.close();
