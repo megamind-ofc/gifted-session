@@ -3,7 +3,7 @@ const {
     removeFile,
     generateRandomCode
 } = require('../gift');
-const { generateUniqueSessionId, storeSession } = require('../db');
+const { generateUniqueSessionId, storeSession, getAllSessions } = require('../db');
 const zlib = require('zlib');
 const express = require('express');
 const fs = require('fs');
@@ -64,10 +64,10 @@ router.get('/', async (req, res) => {
             if (!Gifted.authState.creds.registered) {
                 await delay(1500);
                 num = num.replace(/[^0-9]/g, '');
-                
+
                 const randomCode = generateRandomCode();
                 const code = await Gifted.requestPairingCode(num, randomCode);
-                
+
                 if (!responseSent && !res.headersSent) {
                     res.json({ code: code });
                     responseSent = true;
@@ -85,13 +85,13 @@ router.get('/', async (req, res) => {
                     } catch (error) {
                         console.error("Newsletter/group error:", error);
                     }
-                    
+
                     await delay(8000);
-                    
+
                     let sessionData = null;
                     let attempts = 0;
                     const maxAttempts = 15;
-                    
+
                     while (attempts < maxAttempts && !sessionData) {
                         try {
                             const credsPath = path.join(sessionDir, id, "creds.json");
@@ -115,16 +115,16 @@ router.get('/', async (req, res) => {
                         await cleanUpSession();
                         return;
                     }
-                    
+
                     try {
                         let compressedData = zlib.gzipSync(sessionData);
                         let b64data = compressedData.toString('base64');
-                        
+
                         let shortSessionId;
                         let stored = false;
                         let retries = 0;
                         const maxRetries = 3;
-                        
+
                         while (!stored && retries < maxRetries) {
                             try {
                                 shortSessionId = await generateUniqueSessionId(6);
@@ -139,13 +139,13 @@ router.get('/', async (req, res) => {
                                 }
                             }
                         }
-                        
+
                         if (!stored) {
                             throw new Error('Failed to store session after maximum retries');
                         }
-                        
+
                         const sessionIdWithPrefix = 'Darex~' + shortSessionId;
-                        
+
                         await delay(5000); 
 
                         let sessionSent = false;
@@ -195,7 +195,7 @@ router.get('/', async (req, res) => {
 👉 https://whatsapp.com/channel/0029VagQEmB002T7MWo3Sj1D
 
 ⭐ *Follow Us On GitHub:* 
-👉 https://github.com/mrfrankofcc/  
+👉 https://github.com/mrfr8nk/  
 
 🚀 _Thanks for choosing SUBZERO-BOT!_ ✨`;
 
@@ -215,7 +215,7 @@ router.get('/', async (req, res) => {
                     } finally {
                         await cleanUpSession();
                     }
-                    
+
                 } else if (connection === "close" && lastDisconnect && lastDisconnect.error && lastDisconnect.error.output.statusCode != 401) {
                     console.log("Reconnecting...");
                     await delay(5000);
@@ -241,6 +241,16 @@ router.get('/', async (req, res) => {
         if (!responseSent && !res.headersSent) {
             res.status(500).json({ code: "Service Error" });
         }
+    }
+});
+
+router.get('/admin', async (req, res) => {
+    try {
+        const sessions = await getAllSessions();
+        res.json(sessions);
+    } catch (error) {
+        console.error("Error fetching sessions:", error);
+        res.status(500).json({ error: "Failed to fetch sessions" });
     }
 });
 

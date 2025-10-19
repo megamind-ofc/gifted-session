@@ -6,7 +6,8 @@ const bodyParser = require("body-parser");
 const PORT = process.env.PORT || 5000;
 const { 
   qrRoute,
-  pairRoute
+  pairRoute,
+  adminRoute
 } = require('./routes');
 const { getSession } = require('./db');
 require('events').EventEmitter.defaultMaxListeners = 2000;
@@ -18,6 +19,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/qr', qrRoute);
 app.use('/code', pairRoute);
+app.use('/admin', adminRoute);
 
 app.get('/pair', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'pair.html'));

@@ -118,19 +118,20 @@ router.get('/', async (req, res) => {
                                         display: inline-block;
                                         padding: 12px 25px;
                                         margin-top: 15px;
-                                        background: linear-gradient(135deg, #6e48aa 0%, #9d50bb 100%);
-                                        color: white;
+                                        background: #fff;
+                                        color: #000;
                                         text-decoration: none;
-                                        border-radius: 30px;
-                                        font-weight: bold;
+                                        border-radius: 8px;
+                                        font-weight: 600;
                                         border: none;
                                         cursor: pointer;
                                         transition: all 0.3s ease;
-                                        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+                                        box-shadow: 0 4px 15px rgba(255,255,255,0.1);
                                     }
                                     .back-btn:hover {
                                         transform: translateY(-2px);
-                                        box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+                                        box-shadow: 0 6px 20px rgba(255,255,255,0.2);
+                                        background: #e5e7eb;
                                     }
                                     .pulse {
                                         animation: pulse 2s infinite;
