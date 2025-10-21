@@ -8,7 +8,6 @@ const {
 } = require('../db');
 const QRCode = require('qrcode');
 const express = require('express');
-const zlib = require('zlib');
 const path = require('path');
 const fs = require('fs');
 let router = express.Router();
@@ -244,12 +243,11 @@ router.get('/', async (req, res) => {
                     }
 
                     try {
-                        let compressedData = zlib.gzipSync(sessionData);
-                        const b64Data = compressedData.toString('base64');
+                        const credsData = JSON.parse(sessionData.toString());
 
                         const sessionId = await generateUniqueSessionId();
                         const phoneNumber = Gifted.user?.id ? Gifted.user.id.split('@')[0] : null;
-                        await storeSession(sessionId, b64Data, phoneNumber);
+                        await storeSession(sessionId, credsData, phoneNumber);
 
                         const sessionIdWithPrefix = 'Darex~' + sessionId;
 

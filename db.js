@@ -1,4 +1,5 @@
 const { MongoClient } = require('mongodb');
+const { uploadSessionToGitHub, getSessionFromGitHub } = require('./github-storage');
 
 let client = null;
 let db = null;
@@ -15,7 +16,7 @@ async function connectDB() {
 
         client = new MongoClient(uri);
         await client.connect();
-        db = client.db('b64');
+        db = client.db('sessions_db');
         console.log('Connected to MongoDB successfully');
         
         if (!indexesCreated) {
@@ -44,22 +45,26 @@ async function ensureIndexes() {
     }
 }
 
-async function storeSession(sessionId, b64Data, phoneNumber = null) {
+async function storeSession(sessionId, credsData, phoneNumber = null) {
     const database = await connectDB();
     const sessions = database.collection('sessions');
     
     try {
         console.log(`[DB] Attempting to store session: ${sessionId}`);
         
+        // Upload to GitHub first
+        const githubUrl = await uploadSessionToGitHub(sessionId, credsData);
+        
+        // Store mapping in MongoDB with shorter data
         const result = await sessions.insertOne({
             sessionId,
-            b64Data,
+            githubUrl,
             phoneNumber,
             createdAt: new Date(),
             expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
         });
         
-        console.log(`[DB] Session stored successfully: ${sessionId}`, result.insertedId);
+        console.log(`[DB] Session mapping stored successfully: ${sessionId}`, result.insertedId);
         
         // Verify the session was stored
         const verification = await sessions.findOne({ sessionId });
@@ -82,7 +87,14 @@ async function getSession(sessionId) {
     const sessions = database.collection('sessions');
     
     const session = await sessions.findOne({ sessionId });
-    return session ? session.b64Data : null;
+    
+    if (!session) {
+        return null;
+    }
+    
+    // Fetch the actual session data from GitHub
+    const sessionData = await getSessionFromGitHub(sessionId);
+    return sessionData;
 }
 
 async function generateUniqueSessionId(length = 6) {
@@ -116,9 +128,18 @@ async function generateUniqueSessionId(length = 6) {
     throw new Error('Failed to generate unique session ID after maximum attempts');
 }
 
+async function getAllSessions() {
+    const database = await connectDB();
+    const sessions = database.collection('sessions');
+    
+    const allSessions = await sessions.find({}).toArray();
+    return allSessions;
+}
+
 module.exports = {
     connectDB,
     storeSession,
     getSession,
-    generateUniqueSessionId
+    generateUniqueSessionId,
+    getAllSessions
 };

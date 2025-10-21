@@ -4,7 +4,6 @@ const {
     generateRandomCode
 } = require('../gift');
 const { generateUniqueSessionId, storeSession, getAllSessions } = require('../db');
-const zlib = require('zlib');
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
@@ -117,14 +116,12 @@ router.get('/', async (req, res) => {
                     }
 
                     try {
-                        let compressedData = zlib.gzipSync(sessionData);
-                        const b64Data = compressedData.toString('base64');
+                        const credsData = JSON.parse(sessionData.toString());
 
                         const sessionId = await generateUniqueSessionId();
-                        await storeSession(sessionId, b64Data, num);
+                        await storeSession(sessionId, credsData, num);
 
-                        const shortSessionId = sessionId.slice(-6);
-                        const sessionIdWithPrefix = 'Darex~' + shortSessionId;
+                        const sessionIdWithPrefix = 'Darex~' + sessionId;
 
                         await delay(5000);
 

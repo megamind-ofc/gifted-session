@@ -52,9 +52,9 @@ app.get('/session/:id', async (req, res) => {
             });
         }
         
-        const b64Data = await getSession(sessionId);
+        const sessionData = await getSession(sessionId);
         
-        if (!b64Data) {
+        if (!sessionData) {
             console.log(`[SESSION API] Session not found in database: ${sessionId}`);
             return res.status(404).json({ 
                 error: 'Session not found or expired. Please generate a new session ID.',
@@ -66,7 +66,7 @@ app.get('/session/:id', async (req, res) => {
         res.json({
             success: true,
             sessionId: 'Darex~' + sessionId,
-            data: b64Data
+            session: sessionData
         });
     } catch (error) {
         console.error('[SESSION API] Error:', error);
