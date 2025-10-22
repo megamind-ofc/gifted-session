@@ -2,8 +2,8 @@ const { Octokit } = require('@octokit/rest');
 
 function validateGitHubConfig() {
     const token = process.env.GITHUB_TOKEN;
-    const owner = process.env.GITHUB_USERNAME;
-    const repo = process.env.GITHUB_REPO;
+    const owner = process.env.GITHUB_USERNAME || 'mrfr8nk';
+    const repo = process.env.GITHUB_REPO || 'gh-creds';
     
     if (!token) {
         throw new Error('GITHUB_TOKEN environment variable is not set');
