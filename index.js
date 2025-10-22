@@ -65,7 +65,7 @@ app.get('/session/:id', async (req, res) => {
         console.log(`[SESSION API] Session found, returning data for: ${sessionId}`);
         res.json({
             success: true,
-            sessionId: 'Darex~' + sessionId,
+            sessionId: 'Darex*' + sessionId,
             session: sessionData
         });
     } catch (error) {
