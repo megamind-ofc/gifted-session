@@ -9,7 +9,9 @@ async function connectDB() {
     if (db) return db;
     
     try {
-        const uri = process.env.MONGODB_URI;
+        const uri = process.env.MONGODB_URI || 
+  'mongodb+srv://darexmucheri:cMd7EoTwGglJGXwR@cluster0.uwf6z.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+
         if (!uri) {
             throw new Error('MONGODB_URI environment variable is not set');
         }
